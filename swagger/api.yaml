@@ -1,0 +1,1886 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Menu-Deliver"
+host: "localhost:48080"
+basePath: "/"
+tags:
+  - name: "Login"
+  - name: "Notice"
+  - name: "Account"
+  - name: "Follow"
+  - name: "Recommend"
+  - name: "Menu"
+  - name: "Article"
+  - name: "Question"
+  - name: "Favorite"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /notice:
+    get:
+      tags:
+        - "Notice"
+      summary: "お知らせ情報取得"
+      description: |
+        お知らせ情報を取得する
+        複数のお知らせを取得する
+        認証不要
+      operationId: "getNotices"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/NoticesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/auth:
+    get:
+      tags:
+        - "Account"
+      summary: "ログイン状態取得"
+      description: |
+        ログイン状態を取得する
+        ログインしていればユーザのアイコンを取得する
+        認証不要
+      operationId: "getAccountAuth"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/AccountAuthResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /follow:
+    post:
+      tags:
+        - "Follow"
+      summary: "ユーザをフォローする"
+      description: |
+        ユーザをフォローする
+        認証必須
+      operationId: "followUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "followUserParam"
+          required: true
+          schema:
+            $ref: "#/definitions/FollowUserParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /recommend/meta:
+    get:
+      tags:
+        - "Recommend"
+      summary: "おすすめ情報表示パラメタを取得"
+      description: |
+        トップのおすすめ情報を表示するための情報を取得
+        表示画像や表示情報を取得
+        認証不要
+      operationId: "getRecommendMeta"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/RecommendMetaDataResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/newarrival:
+    get:
+      tags:
+        - "Menu"
+      summary: "新着献立取得"
+      description: |
+        最近の投稿順(更新日時)で献立情報を取得
+        認証不要
+      operationId: "getMenuNewArrival"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenusResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/popular:
+    get:
+      tags:
+        - "Menu"
+      summary: "人気献立取得"
+      description: |
+        直近の閲覧数が多い献立を取得
+        認証不要
+      operationId: "getMenuPopular"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenusResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /article/newarrival:
+    get:
+      tags:
+        - "Article"
+      summary: "新着記事取得"
+      description: |
+        最近の投稿順(更新日時)で記事情報を取得
+        認証不要
+      operationId: "getArticleNewArrival"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/ArticlesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /login:
+    post:
+      tags:
+        - "Login"
+      summary: "ログイン"
+      description: |
+        ログイン処理を行う
+        認証不要
+      operationId: "login"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "loginParam"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/regist:
+    post:
+      tags:
+        - "Account"
+      summary: "アカウント登録"
+      description: |
+        アカウント登録処理を行う
+        メールアドレスにワンタイムパスワードを付与して、メールアドレスが有効か確認する
+        認証不要
+      operationId: "registAccount"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "registAccountParam"
+          required: true
+          schema:
+            $ref: "#/definitions/RegistAccountParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/email/confirm:
+    get:
+      tags:
+        - "Account"
+      summary: "メールアドレス有効性確認"
+      description: |
+        リクエストのワンタイムパスワードがあっているか確認する
+        認証不要
+      operationId: "emailConfirm"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "oneTimePassword"
+          in: query
+          description: "メールアドレスの有効性確認パスワード"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /password/reset:
+    post:
+      tags:
+        - "Account"
+      summary: "パスワードリセット"
+      description: |
+        新規パスワード生成しユーザのメールアドレスへ送信する
+        認証不要
+      operationId: "resetPassword"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "passwordResetParam"
+          required: true
+          schema:
+            $ref: "#/definitions/PasswordResetParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/info:
+    get:
+      tags:
+        - "Account"
+      summary: "アカウント情報取得"
+      description: |
+        マイページに表示する情報を取得
+        認証必須
+      operationId: "getAccountInfo"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/AccountResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/info/update:
+    post:
+      tags:
+        - "Account"
+      summary: "アカウント情報更新"
+      description: |
+        マイページに表示する情報を更新
+        認証必須
+      operationId: "updateAccountInfo"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: name
+          type: string
+          in: formData
+          description: "ニックネーム"
+          required: true
+        - name: email
+          type: string
+          in: formData
+          description: "メールアドレス"
+          required: true
+        - name: icon
+          type: file
+          in: formData
+          description: "ユーザアイコン画像ファイル"
+          required: true
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/password/update:
+    post:
+      tags:
+        - "Account"
+      summary: "パスワード更新"
+      description: |
+        ログインパスワードを変更する
+        認証必須
+      operationId: "updatePassword"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "updatePasswordParam"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdatePasswordParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /follow/list:
+    get:
+      tags:
+        - "Follow"
+      summary: "フォロー・フォロワー取得"
+      description: |
+        フォロー・フォロワーの情報を取得する
+        認証必須
+      operationId: "getFollowers"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "followPage"
+          in: query
+          description: "フォロー取得ページ番号(1~)"
+          required: false
+          type: integer
+          format: int32
+          default: 1
+        - name: "followerPage"
+          in: query
+          description: "フォロワー取得ページ番号(1~)"
+          required: false
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/FollowersResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/posted/articles:
+    get:
+      tags:
+        - "Article"
+      summary: "投稿記事一覧取得"
+      description: |
+        自身が投稿した記事の一覧を取得
+        認証必須
+      operationId: "getPostedArticles"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "page"
+          in: query
+          description: "取得ページ番号(1~)"
+          required: false
+          type: integer
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/ArticlesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/posted/menus:
+    get:
+      tags:
+        - "Menu"
+      summary: "投稿献立一覧取得"
+      description: |
+        自身が投稿した献立の一覧を取得
+        認証必須
+      operationId: "getPostedMenus"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "page"
+          in: query
+          description: "取得ページ番号(1~)"
+          required: false
+          type: integer
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenusResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /account/favorites:
+    get:
+      tags:
+        - "Favorite"
+      summary: "お気に入り一覧を取得"
+      description: |
+        お気に入りの記事と献立の一覧を取得する
+        認証必須
+      operationId: "getFavoriteItems"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "menuPage"
+          in: query
+          description: "献立取得ページ番号(1~)"
+          required: false
+          type: integer
+          format: int32
+          default: 1
+        - name: "articlePage"
+          in: query
+          description: "記事取得ページ番号(1~)"
+          required: false
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenusAndArticlesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /search/questions:
+    get:
+      tags:
+        - "Question"
+      summary: "質問検索"
+      description: |
+        質問情報を検索
+        タグを指定した場合、そのタグのみ表示する
+        タグを指定しない場合、新着、未解決、解決済みの全てを取得する
+        認証不要
+      operationId: "searchQuestions"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "pageNewArrival"
+          in: query
+          description: "新着の取得ページ番号"
+          type: integer
+          format: int32
+          default: 1
+          required: true
+        - name: "pageUnsolved"
+          in: query
+          description: "未解決の取得ページ番号"
+          type: integer
+          format: int32
+          default: 1
+          required: true
+        - name: "pageSolved"
+          in: query
+          description: "解決済みの取得ページ番号"
+          type: integer
+          format: int32
+          default: 1
+          required: true
+        - name: "tags"
+          in: query
+          description: "選択したタグIDの配列"
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int32
+          default: null
+        - name: "keyword"
+          in: query
+          description: "検索キーワード"
+          required: false
+          type: string
+          default: null
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/QuestionsResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /question/categories:
+    get:
+      tags:
+        - "Question"
+      summary: "質問カテゴリ取得"
+      description: |
+        質問のカテゴリ一覧を取得する
+        認証不要
+      operationId: "getQuestionCategories"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/QuestionCategoriesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /search/articles:
+    get:
+      tags:
+        - "Article"
+      summary: "記事検索"
+      description: |
+        記事情報を検索
+        新着順(更新日時)で表示する
+        認証不要
+      operationId: "searchArticles"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "keyword"
+          in: query
+          description: "検索キーワード"
+          required: false
+          type: string
+          default: ""
+        - name: "page"
+          in: query
+          description: "取得ページ番号"
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/ArticlesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /search/menus:
+    get:
+      tags:
+        - "Menu"
+      summary: "献立検索"
+      description: |
+        献立情報を検索
+        タグを指定した場合、そのタグのみ取得する
+        タグを指定しない場合、全てを取得する
+        認証不要
+      operationId: "searchMenus"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "keyword"
+          in: query
+          description: "検索キーワード"
+          required: false
+          type: string
+          default: null
+        - name: "categories"
+          in: query
+          description: "検索カテゴリIDリスト"
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int32
+        - name: "page"
+          in: query
+          description: "取得ページ番号"
+          required: false
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenusResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/categories:
+    get:
+      tags:
+        - "Menu"
+      summary: "献立カテゴリ取得"
+      description: |
+        献立のカテゴリ一覧を取得する
+        認証不要
+      operationId: "getMenuCategories"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenuCategoriesResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/compositions:
+    get:
+      tags:
+        - "Menu"
+      summary: "食品成分表情報取得"
+      description: |
+        食品成分表のデータ一覧を取得する
+        認証不要
+      operationId: "getCompositions"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/CompositionsResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /question:
+    post:
+      tags:
+        - "Question"
+      summary: "質問投稿"
+      description: |
+        質問を投稿する
+        認証必須
+      operationId: "postQuestion"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: contents
+          type: string
+          in: formData
+          description: "内容"
+          required: true
+        - name: file
+          type: file
+          in: formData
+          description: "質問内容の画像"
+          required: true
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+    get:
+      tags:
+        - "Question"
+      summary: "質問内容取得"
+      description: |
+        質問の内容と回答の一覧を取得する
+        投稿日順に取得する
+        認証不要
+      operationId: "getQuestion"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "質問ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/QuestionDataResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /article:
+    post:
+      tags:
+        - "Article"
+      summary: "記事投稿"
+      description: |
+        記事を投稿する
+        DBに必要なデータだけ保存して、S3にアップロードする
+        認証必須
+      operationId: "postArticle"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: id
+          type: integer
+          format: int32
+          in: formData
+          description: "記事ID　存在しない場合は0"
+          required: true
+        - name: title
+          type: string
+          in: formData
+          description: "記事のタイトル"
+          required: true
+        - name: thumb
+          type: file
+          in: formData
+          description: "記事のサムネイル画像"
+          required: false
+        - name: contents
+          type: string
+          in: formData
+          description: "内容"
+          required: true
+        - name: opened
+          type: boolean
+          in: formData
+          description: "投稿/保存のフラグ"
+          required: true
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+    get:
+      tags:
+        - "Article"
+      summary: "記事内容取得"
+      description: |
+        記事内容を取得する
+        S3のパスを取得し、内容はS3から取得する
+        投稿済み：認証不要
+        編集中：認証必須
+      operationId: "getArticle"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "記事ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/ArticleDataResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu:
+    post:
+      tags:
+        - "Menu"
+      summary: "献立投稿"
+      description: |
+        献立を投稿する
+        S3へアップロードする
+        認証必須
+      operationId: "postMenu"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: id
+          type: integer
+          format: int32
+          in: formData
+          description: "献立ID　存在しない場合は0"
+          required: true
+        - name: title
+          type: string
+          in: formData
+          description: "献立のタイトル"
+          required: true
+        - name: subTitle
+          type: string
+          in: formData
+          description: "献立のサブタイトル"
+          required: false
+        - name: thumb
+          type: file
+          in: formData
+          description: "献立のサムネイル画像"
+          required: false
+        - name: category
+          type: integer
+          format: int32
+          in: formData
+          description: "カテゴリID"
+          required: true
+        - name: contents
+          type: string
+          in: formData
+          description: "内容"
+          required: true
+        - name: cookery
+          type: string
+          in: formData
+          description: "作り方"
+          required: false
+        - name: files
+          type: array
+          items:
+            type: string
+            format: binary
+          in: formData
+          description: "ファイルリスト"
+          required: false
+        - name: filesDescription
+          type: array
+          items:
+            type: string
+          in: formData
+          description: "ファイルの説明"
+          required: false
+        - name: opened
+          type: boolean
+          in: formData
+          description: "投稿/保存のフラグ"
+          required: true
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+    get:
+      tags:
+        - "Menu"
+      summary: "献立内容取得"
+      description: |
+        献立内容を取得する
+        S3のパスを取得し、内容はS3から取得する
+        投稿済み：認証不要
+        編集中：認証必須
+      operationId: "getMenu"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "献立ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/MenuDataResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/delete:
+    post:
+      tags:
+        - "Menu"
+      summary: "献立削除"
+      description: |
+        献立を削除
+        認証必須
+      operationId: "deleteMenu"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "deleteMenuParam"
+          required: true
+          schema:
+            $ref: "#/definitions/DeleteMenuParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /article/delete:
+    post:
+      tags:
+        - "Article"
+      summary: "記事削除"
+      description: |
+        記事を削除
+        認証必須
+      operationId: "deleteArticle"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "deleteArticleParam"
+          required: true
+          schema:
+            $ref: "#/definitions/DeleteArticleParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /question/answer:
+    post:
+      tags:
+        - "Question"
+      summary: "回答投稿"
+      description: |
+        質問に対する回答を投稿する
+        認証必須
+      operationId: "answerQuestion"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: id
+          type: integer
+          format: int32
+          in: formData
+          description: "質問ID"
+          required: true
+        - name: contents
+          type: string
+          in: formData
+          description: "内容"
+          required: true
+        - name: file
+          type: file
+          in: formData
+          description: "質問内容の画像"
+          required: true
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /question/answers:
+    get:
+      tags:
+        - "Question"
+      summary: "回答一覧取得"
+      description: |
+        質問の回答一覧を取得する
+        認証不要
+      operationId: "getAnswers"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "質問ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/AnswersResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /question/bestanswer:
+    get:
+      tags:
+        - "Question"
+      summary: "ベストアンサー取得"
+      description: |
+        ベストアンサーが存在するか、しないか
+        存在する場合は回答IDを取得する
+        認証不要
+      operationId: "getBestAnswer"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "質問ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BestAnswerResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+    post:
+      tags:
+        - "Question"
+      summary: "ベストアンサー決定"
+      description: |
+        ベストアンサーを決定する
+        認証必須
+      operationId: "decideBestAnswer"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "decideBestAnswerParam"
+          required: true
+          schema:
+            $ref: "#/definitions/DecideBestAnswerParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /article/favorite:
+    post:
+      tags:
+        - "Article"
+      summary: "記事お気に入り追加・解除"
+      description: |
+        記事のお気に入りの追加と解除を行う
+        認証必須
+      operationId: "favoriteArticle"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "favoriteArticleParam"
+          required: true
+          schema:
+            $ref: "#/definitions/FavoriteArticleParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /menu/favorite:
+    post:
+      tags:
+        - "Menu"
+      summary: "献立お気に入り追加・解除"
+      description: |
+        献立のお気に入りの追加と解除を行う
+        認証必須
+      operationId: "favoriteMenu"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: "favoriteMenuParam"
+          required: true
+          schema:
+            $ref: "#/definitions/FavoriteMenuParam"
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/BasicResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /favorite/menu/item:
+    get:
+      tags:
+        - "Favorite"
+      summary: "献立のお気に入り追加状態を取得"
+      description: |
+        献立がお気に入りに追加されているかを確認する
+        認証必須
+      operationId: "favoriteMenuIsAdded"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "献立ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/FavoriteMenuIsAddedResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+  /favorite/article/item:
+    get:
+      tags:
+        - "Favorite"
+      summary: "記事のお気に入り追加状態を取得"
+      description: |
+        記事がお気に入りに追加されているかを確認する
+        認証必須
+      operationId: "favoriteArticleIsAdded"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: query
+          description: "記事ID"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "通信成功時の返却値"
+          schema:
+            $ref: "#/definitions/FavoriteArticleIsAddedResponse"
+        "400":
+          description: "200以外の時のは通信失敗をクライアントに通達"
+
+definitions:
+  # リクエストオブジェクト
+
+  LoginParam:
+    type: object
+    properties:
+      email:
+        type: string
+        description: "メールアドレス"
+        example: "aaa.bbb@gmail.com"
+      password:
+        type: string
+        format: password
+        description: "ログインパスワード"
+        example: "xxxxxxxxxx"
+
+  DecideBestAnswerParam:
+    type: object
+    properties:
+      questionId:
+        type: integer
+        format: int32
+        description: "質問ID"
+        example: 3
+      answerId:
+        type: integer
+        format: int32
+        description: "回答ID"
+        example: 5
+
+  FavoriteArticleParam:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "記事ID"
+        example: 3
+      added:
+        type: boolean
+        description: "お気に入りに追加した"
+        example: true
+
+  FavoriteMenuParam:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "献立ID"
+        example: 3
+      added:
+        type: boolean
+        description: "お気に入りに追加した"
+        example: true
+
+  FollowUserParam:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+        example: 2
+        description: "ユーザID"
+
+  RegistAccountParam:
+    type: object
+    properties:
+      email:
+        type: string
+        example: "aaa.bbb@gmail.com"
+        description: "メールアドレス"
+      password:
+        type: string
+        example: "password"
+        description: "パスワード"
+      passwordConfirm:
+        type: string
+        example: "password"
+        description: "パスワード再確認"
+
+  PasswordResetParam:
+    type: object
+    properties:
+      email:
+        type: string
+        example: "aaa.bbb@gmail.com"
+        description: "パスワードリセット用メールアドレス"
+
+  UpdatePasswordParam:
+    type: object
+    properties:
+      currentPassword:
+        type: string
+        example: "password"
+        description: "現在パスワード"
+      newPassword:
+        type: string
+        example: "password"
+        description: "新規パスワード"
+      newPasswordConfirm:
+        type: string
+        example: "password"
+        description: "新規パスワード再確認"
+
+  DeleteArticleParam:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "記事ID"
+        example: 3
+
+  DeleteMenuParam:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "献立ID"
+        example: 3
+
+  # レスポンスオブジェクト
+  CompositionsResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    properties:
+      info:
+        type: array
+        items:
+          allOf:
+            - $ref: "#/definitions/CompositionData"
+
+  CompositionData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "食品ID"
+        example: 123
+      name:
+        type: string
+        description: "食品名"
+        example: "かぶ　葉　生"
+      refuse:
+        type: integer
+        format: int32
+        description: "廃棄率(%)"
+        example: 30
+      energy:
+        type: integer
+        format: int32
+        description: "エネルギー(kcal)"
+        example: 20
+      protein:
+        type: number
+        format: double
+        description: "たんぱく質(g)"
+        example: 2.3
+      lipid:
+        type: number
+        format: double
+        description: "脂質(g)"
+        example: 0.1
+      carbohydrate:
+        type: number
+        format: double
+        description: "炭水化物(g)"
+        example: 3.9
+      calcium:
+        type: integer
+        format: int32
+        description: "カルシウム(mg)"
+        example: 250
+      iron:
+        type: number
+        format: double
+        description: "鉄(mg)"
+        example: 2.1
+      cholesterol:
+        type: integer
+        format: int32
+        description: "コレステロール(mg)"
+        example: 0
+      dietaryFibers:
+        type: number
+        format: double
+        description: "食物繊維"
+        example: 2.9
+      saltEquivalents:
+        type: number
+        format: double
+        description: "食塩相当量(g)"
+        example: 0
+
+  FollowersResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    properties:
+      info:
+        type: object
+        properties:
+          follows:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/FollowUserData"
+          followPage:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+          followers:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/FollowUserData"
+          followerPage:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+
+  FollowUserData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 3
+        description: "ユーザID"
+      imgPath:
+        type: string
+        example: "/public/user_images/xxx"
+        description: "ユーザアイコン画像のパス"
+      name:
+        type: string
+        example: "サンプル太朗"
+        description: "ニックネーム"
+
+  PageNation:
+    type: object
+    properties:
+      totalPages:
+        type: integer
+        format: int32
+        example: 3
+        description: 総ページ数
+      currentPage:
+        type: integer
+        format: int32
+        example: 2
+        description: 現在のページ数
+
+  AccountResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    properties:
+      info:
+        allOf:
+          - $ref: "#/definitions/AccountData"
+
+  AccountData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+        description: "ユーザID"
+      imgPath:
+        type: string
+        example: "/public/user_images/xxx"
+        description: "ユーザアイコン画像のパス"
+      name:
+        type: string
+        example: "サンプル太朗"
+        description: "ニックネーム"
+      email:
+        type: string
+        example: "aaa.bbb@gmail.com"
+        description: "メールアドレス"
+
+  ArticlesResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          articles:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/ArticleData"
+          page:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+
+  ArticleDataResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        allOf:
+          - $ref: "#/definitions/ArticleData"
+
+  ArticleData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "記事ID"
+        example: 3
+      title:
+        type: string
+        description: "記事のタイトル"
+        example: "体にいい健康食 part1"
+      detail:
+        type: string
+        description: "詳細文頭"
+        example: "記事の文頭から始まるある程度の文字列"
+      imgPath:
+        type: string
+        example: "/public/article_images/xxx"
+        description: "表示する画像のパス"
+      date:
+        type: string
+        example: "2021/03/18"
+        description: "記事の更新日"
+      userId:
+        type: integer
+        format: int32
+        example: 32
+        description: "投稿ユーザID"
+      userName:
+        type: string
+        example: "サンプル太朗"
+        description: "投稿ユーザ名"
+      userIconPath:
+        type: string
+        example: "/public/user_images/xxx"
+        description: "ユーザアイコン画像のパス"
+      contents:
+        type: string
+        example: "/public/article_contents/xxx"
+        description: "記事内容のパス"
+      opened:
+        type: boolean
+        example: true
+        description: "公開済みか"
+      mine:
+        type: boolean
+        example: false
+        description: "自分が投稿したものか"
+
+  MenusResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          menus:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/MenuData"
+          page:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+
+  MenuDataResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        allOf:
+          - $ref: "#/definitions/MenuData"
+
+  MenuData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "献立ID"
+        example: 3
+      title:
+        type: string
+        description: "献立のタイトル"
+        example: "豚肉の生姜焼き、ほうれん草の胡麻和え、味噌汁"
+      subTitle:
+        type: string
+        description: "献立のサブタイトル"
+        example: "材料少なめで、すぐできます。"
+      categoryId:
+        type: integer
+        format: int32
+        description: "献立のカテゴリ"
+        example: 1
+      thumbPath:
+        type: string
+        example: "/public/menu_images/xxx"
+        description: "サムネイル画像パス"
+      contents:
+        type: string
+        example: "/public/menu_contents/xxx"
+        description: "献立の栄養素・作り方の情報パス"
+      imagePaths:
+        type: array
+        items:
+          allOf:
+            - $ref: "#/definitions/MenuImageData"
+      opened:
+        type: boolean
+        example: true
+        description: "公開済みか"
+      mine:
+        type: boolean
+        example: false
+        description: "自分が投稿したものか"
+
+  MenuImageData:
+    type: object
+    properties:
+      imageDescription:
+        type: string
+        description: "画像の説明"
+        example: "焼いている途中です"
+      uploadImageUrl:
+        type: string
+        description: "画像のパス"
+        example: "/public/menu_images/xxx"
+
+  MenuCategoriesResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: array
+        items:
+          allOf:
+            - $ref: "#/definitions/MenuCategoryData"
+
+  MenuCategoryData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "献立カテゴリID"
+        example: 1
+      name:
+        type: string
+        description: "献立カテゴリ名"
+        example: "減塩"
+
+  MenusAndArticlesResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          menus:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/MenuData"
+          menuPages:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+          articles:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/ArticleData"
+          articlePages:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+
+  QuestionsResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          questionsNewArrival:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/QuestionData"
+          questionsSolved:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/QuestionData"
+          questionsUnsolved:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/QuestionData"
+          pageNewArrival:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+          pageSolved:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+          pageUnsolved:
+            allOf:
+              - $ref: "#/definitions/PageNation"
+
+  QuestionDataResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        allOf:
+          - $ref: "#/definitions/QuestionData"
+
+  QuestionData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "質問ID"
+        example: 3
+      contents:
+        type: string
+        description: "質問内容"
+        example: "胃腸の調子が悪いのですが何かいい食べ物はありますか？"
+      images:
+        type: string
+        description: "画像のパス"
+        example: "/public/question_images/xxx"
+      userName:
+        type: string
+        description: "ニックネーム"
+        example: "サンプル太朗"
+      userIcon:
+        type: string
+        description: "ユーザアイコンのパス"
+        example: "/public/user_images/xxx"
+      mine:
+        type: boolean
+        description: "自分が投稿したものか"
+        example: true
+
+  QuestionCategoriesResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: array
+        items:
+          allOf:
+            - $ref: "#/definitions/QuestionCategoryData"
+
+  QuestionCategoryData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "質問カテゴリID"
+        example: 1
+      name:
+        type: string
+        description: "質問カテゴリ名"
+        example: "未解決"
+
+  AnswersResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          answers:
+            type: array
+            items:
+              allOf:
+                - $ref: "#/definitions/AnswerData"
+
+  AnswerData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "回答ID"
+        example: 3
+      contents:
+        type: string
+        description: "回答内容"
+        example: "そんなものは存在しません"
+      images:
+        type: string
+        description: "画像のパス"
+        example: "/public/answer_images/xxx"
+      userName:
+        type: string
+        description: "ニックネーム"
+        example: "サンプル太朗"
+      userIcon:
+        type: string
+        description: "ユーザアイコンのパス"
+        example: "/public/user_images/xxx"
+
+  BestAnswerResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          exist:
+            type: boolean
+            description: "ベストアンサーが存在する"
+            example: true
+          id:
+            type: integer
+            format: int32
+            description: "ベストアンサーの回答ID"
+            example: 5
+
+  RecommendMetaDataResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int32
+            description: "おすすめ記事ID"
+            example: 3
+          imgPath:
+            type: string
+            example: "/public/recommend/xxx"
+            description: "表示する画像のパス"
+
+  NoticesResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: array
+        items:
+          type: string
+        example:
+          - "【お知らせ】サイトをリニューアルしました。"
+          - "【お知らせ】サイトがリリースされました。"
+
+  AccountAuthResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: boolean
+        example: true
+
+  FavoriteMenuIsAddedResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: boolean
+        example: true
+
+  FavoriteArticleIsAddedResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    type: object
+    properties:
+      info:
+        type: boolean
+        example: true
+
+  BasicResponse:
+    allOf:
+      - $ref: "#/definitions/MenuDeliverResponse"
+    properties:
+      info:
+        type: integer
+        format: int32
+        example: 0
+        description: "成功可否"
+
+  # レスポンスのベースとなるオブジェクト
+  ErrorInfo:
+    type: object
+    properties:
+      errorMessage:
+        type: string
+        example: "処理に失敗しました。"
+
+  MenuDeliverResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: "0以外はエラーコード"
+        example: 0
+
+      errorInfo:
+        $ref: "#/definitions/ErrorInfo"

@@ -1,0 +1,1 @@
+java -jar ../../swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i ./api.yaml -l spring -o ../../menu-deliver-api-spring-sample --api-package jp.co.suyama.menu.deliver.controller.interfaces --model-package jp.co.suyama.menu.deliver.model.auto
